@@ -1,6 +1,7 @@
 package models
 
 import (
+    "time"
     "golang.org/x/crypto/bcrypt"
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
@@ -28,11 +29,24 @@ func (u *User) BeforeSave() error {
 
 // Wallet model
 // Belongs to User
+// Has One2Many relation to Transaction
 type Wallet struct {
     gorm.Model
-    Name     string
-    Currency string `gorm:"size:10"`
-    Balance  int
-    UserID   uint
-    User     User
+    Name         string
+    Currency     string `gorm:"size:10"`
+    Balance      int
+    UserID       uint
+    User         User
+    Transactions []Transaction
+}
+
+// Transaction model
+// Belongs to Wallet
+type Transaction struct {
+    gorm.Model
+    Date        time.Time
+    Description string    `gorm:"type:text"`
+    Amount      int
+    WalletID    uint
+    Wallet      Wallet
 }

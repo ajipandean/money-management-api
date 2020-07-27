@@ -22,7 +22,7 @@ func FindWallet(c echo.Context) error {
     db := d.DB
     wallet := new(m.Wallet)
 
-    if res := db.First(wallet, c.Param("id")); res.RecordNotFound() {
+    if res := db.Preload("User").First(wallet, c.Param("id")); res.RecordNotFound() {
         return c.JSON(http.StatusInternalServerError, M{
             "Message": "Wallet not found",
         })
