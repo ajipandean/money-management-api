@@ -12,8 +12,8 @@ import (
 type User struct {
     gorm.Model
     Email    string `gorm:"UNIQUE"`
-    Username string
-    Password string
+    Username string `gorm:"not null"`
+    Password string `gorm:"not null"`
     Wallets  []Wallet
 }
 // Hash User password before
@@ -34,11 +34,10 @@ func (u *User) BeforeSave() error {
 // Has One2Many relation to Transaction
 type Wallet struct {
     gorm.Model
-    Name         string
+    Name         string `gorm:"not null"`
     Currency     string `gorm:"size:10"`
-    Balance      int
-    UserID       uint
-    User         User
+    Balance      int    `gorm:"not null"`
+    UserID       uint   `gorm:"not null"`
     Transactions []Transaction
 }
 
@@ -46,9 +45,8 @@ type Wallet struct {
 // Belongs to Wallet
 type Transaction struct {
     gorm.Model
-    Date        time.Time
-    Description string    `gorm:"type:text"`
-    Amount      int
-    WalletID    uint
-    Wallet      Wallet
+    Date        time.Time `gorm:"not null"`
+    Description string    `gorm:"type:text;"`
+    Amount      int       `gorm:"not null"`
+    WalletID    uint      `gorm:"not null"`
 }
