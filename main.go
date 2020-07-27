@@ -2,8 +2,9 @@ package main
 
 import (
     "fmt"
-    "net/http"
+    "money-management-api/models"
     "money-management-api/database"
+    "money-management-api/routes"
     "github.com/labstack/echo/v4"
     "github.com/labstack/echo/v4/middleware"
     "github.com/jinzhu/gorm"
@@ -22,6 +23,9 @@ func main() {
 
     fmt.Println("MySQL already connected with us :>")
 
+    database.DB.AutoMigrate(&models.User{})
+    fmt.Println("Database table migrated :>")
+
     defer database.DB.Close()
 
     // Middlewares
@@ -31,10 +35,7 @@ func main() {
     e.Use(middleware.Recover())
 
     // Routes
-    api := e.Group("/api")
-    api.GET("/", func(c echo.Context) error {
-        return c.String(http.StatusOK, "Hello world")
-    })
+    routes.Setup(e)
 
     e.Logger.Fatal(e.Start("localhost:8080"))
 }

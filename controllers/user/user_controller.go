@@ -2,7 +2,6 @@ package user_controller
 
 import (
     "net/http"
-    "money-management-api/database"
     "github.com/labstack/echo/v4"
 )
 
