@@ -7,6 +7,7 @@ import (
 )
 
 // User model
+// Has One2Many relation to Wallet
 type User struct {
     gorm.Model
     Email    string `gorm:"UNIQUE"`
@@ -26,6 +27,7 @@ func (u *User) BeforeSave() error {
 }
 
 // Wallet model
+// Belongs to User
 type Wallet struct {
     gorm.Model
     Name     string
