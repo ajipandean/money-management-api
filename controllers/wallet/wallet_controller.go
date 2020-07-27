@@ -13,7 +13,7 @@ func FetchWallets(c echo.Context) error {
     db := d.DB
     wallets := new([]m.Wallet)
 
-    db.Preload("User").Find(wallets)
+    db.Preload("Transactions").Find(wallets)
 
     return c.JSON(http.StatusOK, wallets)
 }
@@ -22,7 +22,7 @@ func FindWallet(c echo.Context) error {
     db := d.DB
     wallet := new(m.Wallet)
 
-    if res := db.Preload("User").First(wallet, c.Param("id")); res.RecordNotFound() {
+    if res := db.Preload("Transactions").First(wallet, c.Param("id")); res.RecordNotFound() {
         return c.JSON(http.StatusInternalServerError, M{
             "Message": "Wallet not found",
         })
