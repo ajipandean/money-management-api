@@ -13,7 +13,7 @@ func FetchWallets(c echo.Context) error {
     db := d.DB
     wallets := new([]m.Wallet)
 
-    db.Find(wallets)
+    db.Preload("User").Find(wallets)
 
     return c.JSON(http.StatusOK, wallets)
 }

@@ -13,7 +13,7 @@ func FetchUsers(c echo.Context) error {
     db := d.DB
     users := new([]m.User)
 
-    db.Find(&users)
+    db.Preload("Wallets").Find(&users)
 
     return c.JSON(http.StatusOK, users)
 }
@@ -22,7 +22,7 @@ func FindUser(c echo.Context) error {
     db := d.DB
     user := new(m.User)
 
-    if res := db.First(user, c.Param("id")); res.RecordNotFound() {
+    if res := db.Preload("Wallets").First(user, c.Param("id")); res.RecordNotFound() {
         return c.JSON(http.StatusInternalServerError, M{
             "Message": "User not found",
         })

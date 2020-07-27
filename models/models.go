@@ -34,4 +34,5 @@ type Wallet struct {
     Currency string `gorm:"size:10"`
     Balance  int
     UserID   uint
+    User     User
 }
