@@ -23,7 +23,7 @@ func main() {
 
     fmt.Println("MySQL already connected with us :>")
 
-    database.DB.AutoMigrate(&models.User{}, &models.Wallet{})
+    database.DB.AutoMigrate(&models.User{}, &models.Wallet{}, &models.Transaction{})
     fmt.Println("Database table migrated :>")
 
     defer database.DB.Close()
