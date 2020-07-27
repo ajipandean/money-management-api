@@ -16,6 +16,8 @@ type User struct {
     Password string
     Wallets  []Wallet
 }
+// Hash User password before
+// it being saved to database
 func (u *User) BeforeSave() error {
     hashed, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
     if err != nil {
