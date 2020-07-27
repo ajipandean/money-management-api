@@ -6,11 +6,13 @@ import (
     _ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+// User model
 type User struct {
     gorm.Model
     Email    string `gorm:"UNIQUE"`
     Username string
     Password string
+    Wallets  []Wallet
 }
 func (u *User) BeforeSave() error {
     hashed, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
@@ -21,4 +23,13 @@ func (u *User) BeforeSave() error {
     u.Password = string(hashed)
 
     return nil
+}
+
+// Wallet model
+type Wallet struct {
+    gorm.Model
+    Name     string
+    Currency string `gorm:"size:10"`
+    Balance  int
+    UserID   uint
 }
